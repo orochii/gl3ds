@@ -2,6 +2,8 @@
 OpenGL compatibility layer for N3DS using [Libctru](https://github.com/devkitPro/libctru/).
 Updated to work with current version of LIBCTRU (notice that even the name has changed).
 
+Keep in mind this still doesn't work. It just compiles.
+
 ### Original description:
 OpenGL implementation for the Nintendo 3DS using [ctrulib](https://github.com/smealum/ctrulib/).
 
