@@ -16,6 +16,7 @@
 #include "texstore.h"
 #include "depth.h"
 #include "mtypes.h"
+#include "gpu-old.h"
 
 #define RGBA8(r, g, b, a) ((((r)&0xFF)<<24) | (((g)&0xFF)<<16) | (((b)&0xFF)<<8) | (((a)&0xFF)<<0))
 
@@ -215,9 +216,10 @@ void update_context(struct gl_context *ctx)
 				swImage->NeedsTiling = GL_FALSE;
 				imageTile32(swImage->TiledBuffer, swImage->Buffer, swImage->Base.Width, swImage->Base.Height);
 			}
+			const void *vaddr = &(swImage->TiledBuffer);
 			GPU_SetTexture(
 					(GPU_TEXUNIT) (1 << i),
-					(u32 *) osConvertVirtToPhys((u32) (swImage->TiledBuffer)),
+					(u32 *) osConvertVirtToPhys(vaddr), //(u32) (swImage->TiledBuffer)
 					(u16)swImage->Base.Width,
 					(u16)swImage->Base.Height,
 					GPU_TEXTURE_MAG_FILTER(GPU_NEAREST) | GPU_TEXTURE_MIN_FILTER(GPU_NEAREST) | GPU_TEXTURE_WRAP_S(GPU_CLAMP_TO_EDGE) | GPU_TEXTURE_WRAP_T(GPU_CLAMP_TO_EDGE),
@@ -264,7 +266,7 @@ GLuint gl3ds_createContext(GLuint sharedContext, gfxScreen_t screen)
 	struct dd_function_table* driverFunctions = CALLOC_STRUCT(dd_function_table);
 
 	if (!ctx)
-		return NULL;
+		return 0;
 	if (sharedContext > 0)
 		shared_ctx = (struct gl_context*) sharedContext;
 
@@ -283,7 +285,7 @@ GLuint gl3ds_createContext(GLuint sharedContext, gfxScreen_t screen)
 		return (GLuint) ctx;
 	} else {
 		free(ctx);
-		return NULL;
+		return 0;
 	}
 
 }

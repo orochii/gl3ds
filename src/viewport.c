@@ -33,6 +33,7 @@
 #include "macros.h"
 #include "mtypes.h"
 #include "viewport.h"
+#include "gpu-old.h"
 
 static void
 set_viewport_no_notify(struct gl_context *ctx, unsigned idx,
@@ -469,9 +470,11 @@ static void gpuDepthRange(float nearVal, float farVal)
 void _gl3ds_update_viewport(struct gl_context *ctx)
 {
 	// TODO: this should probably be a matrix uniform instead?
+	const void *vaddr1 = &(ctx->DepthBuffer);
+	const void *vaddr2 = &(ctx->FrameBuffer);
 	GPU_SetViewport(
-			(u32*) osConvertVirtToPhys((u32) ctx->DepthBuffer),
-			(u32*) osConvertVirtToPhys((u32) ctx->FrameBuffer),
+			(u32*) osConvertVirtToPhys(vaddr1),
+			(u32*) osConvertVirtToPhys(vaddr2),
 			(u32)ctx->ViewportArray[0].X,
 			(u32)ctx->ViewportArray[0].Y,
 			ctx->Screen == GFX_TOP ? (u32)ctx->ViewportArray[0].Height : (u32)ctx->ViewportArray[0].Height,

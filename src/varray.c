@@ -40,6 +40,7 @@
 #include "varray.h"
 #include "arrayobj.h"
 #include "glformats.h"
+#include "gpu-old.h"
 //#include "main/dispatch.h"
 
 
@@ -2352,8 +2353,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count)
 	u32 param[28];
 
 	memset(param, 0x00, 28*4);
-
-	param[0x0]=(osConvertVirtToPhys(__linear_heap))>>3;
+	const void *vaddr = &(__linear_heap);
+	param[0x0]=(osConvertVirtToPhys(vaddr))>>3;
 	param[0x1]=vao->AttributeFormats&0xFFFFFFFF;
 	param[0x2]=((attrib_count-1)<<28)|((attributeMask&0xFFF)<<16)|((vao->AttributeFormats>>32)&0xFFFF);
 

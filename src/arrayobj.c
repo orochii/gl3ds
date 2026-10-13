@@ -51,7 +51,7 @@
 #include "mtypes.h"
 #include "varray.h"
 //#include "main/dispatch.h"
-
+GLint _mesa_sizeof_type( GLenum type );
 
 /**
  * Look up the array object for the given ID.

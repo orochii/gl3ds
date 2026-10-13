@@ -25,6 +25,7 @@
 #include "glheader.h"
 #include "context.h"
 #include "mtypes.h"
+#include "gpu-old.h"
 #include "scissor.h"
 
 
